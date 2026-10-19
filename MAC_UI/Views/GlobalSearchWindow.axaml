@@ -1,0 +1,87 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+        xmlns:models="clr-namespace:MAC_UI.Models"
+        x:Class="MAC_UI.Views.GlobalSearchWindow"
+        x:DataType="vm:GlobalSearchViewModel"
+        Title="Búsqueda Global"
+        Width="660" Height="460"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        WindowDecorations="None"
+        Background="Transparent">
+
+    <Border Background="#252526" 
+            BorderBrush="#007ACC" 
+            BorderThickness="1" 
+            CornerRadius="8" 
+            Padding="14,12"
+            BoxShadow="0 8 32 0 #99000000">
+        <Grid RowDefinitions="Auto,Auto,Auto,*" Margin="2">
+            
+            <!-- 1. Cabecera con pestañas y botón cerrar conectados a comandos -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,Auto">
+                <Button Content="Búsqueda de código" 
+                        Command="{Binding SelectCodeTabCommand}"
+                        Background="Transparent" 
+                        Foreground="#007ACC"
+                        FontWeight="Bold"
+                        FontSize="12" Padding="6,2"/>
+                
+                <Button Grid.Column="1" Content="Búsqueda de funciones" 
+                        Command="{Binding SelectFunctionsTabCommand}"
+                        Background="Transparent" Foreground="#888888" 
+                        FontSize="12" Margin="8,0,0,0" Padding="6,2"/>
+
+                <Button Grid.Column="3" Content="✕" 
+                        Command="{Binding CancelCommand}"
+                        Background="Transparent" Foreground="#888888" Padding="6,2"/>
+            </Grid>
+
+            <!-- 2. Caja de texto -->
+            <TextBox x:Name="SearchInputBox"
+                     Grid.Row="1" 
+                     Text="{Binding SearchQuery, Mode=TwoWay}"
+                     PlaceholderText="Escribe para buscar archivos, clases, métodos o texto..." 
+                     Background="#1E1E1E" 
+                     Foreground="White" 
+                     FontSize="13" 
+                     Margin="0,10,0,8"
+                     CornerRadius="4"/>
+
+            <!-- 3. Píldoras de filtro y alcance -->
+            <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto" Margin="0,0,0,8">
+                <Button Grid.Column="0" Content="archivos (f:)" Command="{Binding SetFilterCommand}" CommandParameter="f" Background="#1E1E1E" Foreground="#CCCCCC" FontSize="11" CornerRadius="3" Padding="6,2" Margin="0,0,4,0"/>
+                <Button Grid.Column="1" Content="tipos (t:)" Command="{Binding SetFilterCommand}" CommandParameter="t" Background="#1E1E1E" Foreground="#CCCCCC" FontSize="11" CornerRadius="3" Padding="6,2" Margin="0,0,4,0"/>
+                <Button Grid.Column="2" Content="miembros (m:)" Command="{Binding SetFilterCommand}" CommandParameter="m" Background="#1E1E1E" Foreground="#CCCCCC" FontSize="11" CornerRadius="3" Padding="6,2" Margin="0,0,4,0"/>
+                <Button Grid.Column="3" Content="texto (x:)" Command="{Binding SetFilterCommand}" CommandParameter="x" Background="#1E1E1E" Foreground="#CCCCCC" FontSize="11" CornerRadius="3" Padding="6,2"/>
+
+                <ComboBox Grid.Column="5" SelectedItem="{Binding SelectedScope}" Background="#1E1E1E" Foreground="#CCCCCC" FontSize="11" Height="24">
+                    <ComboBoxItem Content="Toda la solución"/>
+                    <ComboBoxItem Content="Proyecto actual"/>
+                    <ComboBoxItem Content="Documento actual"/>
+                </ComboBox>
+            </Grid>
+
+            <!-- 4. Lista de resultados interactiva -->
+            <Border Grid.Row="3" Background="#1E1E1E" BorderBrush="#2D2D30" BorderThickness="1" CornerRadius="4">
+                <ListBox x:Name="ResultsListBox"
+                         ItemsSource="{Binding Results}" 
+                         SelectedItem="{Binding SelectedItem}"
+                         Background="Transparent">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="models:SearchResultItem">
+                            <Grid ColumnDefinitions="*,Auto" Margin="2,4">
+                                <StackPanel Grid.Column="0" Spacing="2">
+                                    <TextBlock Text="{Binding Title}" Foreground="#E0E0E0" FontSize="12" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Subtitle}" Foreground="#777777" FontSize="11" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="{Binding LineInfo}" Foreground="#007ACC" FontSize="11" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

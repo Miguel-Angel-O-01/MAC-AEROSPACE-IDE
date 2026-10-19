@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MAC_UI.Views.RenameDialogWindow"
+        Title="Cambiar nombre de símbolo"
+        Width="350" Height="130"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Background="#252526">
+    <StackPanel Margin="16" Spacing="10">
+        <TextBlock Text="Nuevo nombre del identificador:" Foreground="White" FontSize="12"/>
+        <TextBox x:Name="NewNameBox" Background="#1E1E1E" Foreground="White"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button Content="Aceptar" Click="OnAcceptClick" Background="#007ACC" Foreground="White"/>
+            <Button Content="Cancelar" Click="OnCancelClick" Background="#3E3E42" Foreground="White"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

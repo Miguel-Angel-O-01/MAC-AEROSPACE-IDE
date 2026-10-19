@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+             xmlns:models="clr-namespace:MAC_IDE.Core.Models;assembly=MAC_IDE.Core"
+             xmlns:fluent="clr-namespace:FluentIcons.Avalonia;assembly=FluentIcons.Avalonia"
+             xmlns:conv="clr-namespace:MAC_UI.Converters"
+             x:Class="MAC_UI.Views.SolutionExplorerView"
+             x:DataType="vm:SolutionExplorerViewModel"
+             Background="#252526">
+
+    <UserControl.Resources>
+        <conv:FileIconConverter x:Key="FileIconConverter"/>
+        <conv:FileColorConverter x:Key="FileColorConverter"/>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Encabezado con el nombre de la carpeta / proyecto actual -->
+        <Border Grid.Row="0" Background="#252526" Padding="8,6" BorderBrush="#2D2D30" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                <fluent:SymbolIcon Symbol="Folder" Foreground="#DCDCAA" FontSize="12"/>
+                <TextBlock Text="{Binding CurrentWorkspaceName}" 
+                           Foreground="#D4D4D4" 
+                           FontWeight="SemiBold" 
+                           FontSize="11"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Árbol Jerárquico de Carpetas y Archivos -->
+        <TreeView Grid.Row="1" 
+                  ItemsSource="{Binding WorkspaceNodes}" 
+                  Background="Transparent"
+                  Margin="2">
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate x:DataType="models:ProjectItemNode" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal" 
+                                Spacing="6" 
+                                VerticalAlignment="Center"
+                                DoubleTapped="OnItemDoubleTapped"
+                                Background="Transparent">
+                        
+                        <!-- Icono dinámico según extensión o carpeta -->
+                        <fluent:SymbolIcon Symbol="{Binding Name, Converter={StaticResource FileIconConverter}}" 
+                                           Foreground="{Binding Name, Converter={StaticResource FileColorConverter}}" 
+                                           FontSize="13"/>
+                        
+                        <!-- Nombre del archivo o subcarpeta -->
+                        <TextBlock Text="{Binding Name}" 
+                                   Foreground="#D4D4D4" 
+                                   FontSize="12" 
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</UserControl>

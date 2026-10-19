@@ -1,0 +1,147 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+             xmlns:fluent="clr-namespace:FluentIcons.Avalonia;assembly=FluentIcons.Avalonia"
+             x:Class="MAC_UI.Views.MainToolbarView"
+             x:DataType="vm:MainToolbarViewModel"
+             Background="#1E1E1E">
+
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Padding" Value="5,3"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button:pointerover">
+            <Setter Property="Background" Value="#3E3E42"/>
+        </Style>
+        <Style Selector="DropDownButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Padding" Value="4,3"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="DropDownButton:pointerover">
+            <Setter Property="Background" Value="#3E3E42"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Height="30" Background="#1E1E1E" BorderBrush="#2D2D30" BorderThickness="0,0,0,1" Padding="8,2">
+        <StackPanel Orientation="Horizontal" Spacing="3" VerticalAlignment="Center">
+
+            <!-- 1. Navegación: Atrás y Adelante -->
+            <Button ToolTip.Tip="Navegar hacia atrás (Ctrl + -)">
+                <fluent:SymbolIcon Symbol="ArrowLeft" Foreground="#888888" FontSize="12"/>
+            </Button>
+            <Button ToolTip.Tip="Navegar hacia adelante (Ctrl + Shift + -)">
+                <fluent:SymbolIcon Symbol="ArrowRight" Foreground="#555555" FontSize="12"/>
+            </Button>
+
+            <!-- Separador -->
+            <Rectangle Width="1" Height="14" Fill="#333333" Margin="3,0"/>
+
+            <!-- 2. Archivo / Proyecto Nuevo -->
+            <Button ToolTip.Tip="Nuevo archivo (Ctrl + N)">
+                <fluent:SymbolIcon Symbol="DocumentAdd" Foreground="#DCDCAA" FontSize="13"/>
+            </Button>
+
+            <!-- 3. Abrir Archivo -->
+            <Button ToolTip.Tip="Abrir archivo existente (Ctrl + O)">
+                <fluent:SymbolIcon Symbol="FolderOpen" Foreground="#DCDCAA" FontSize="13"/>
+            </Button>
+
+            <!-- 4. Guardar y Guardar Todo -->
+            <Button ToolTip.Tip="Guardar archivo actual (Ctrl + S)">
+                <fluent:SymbolIcon Symbol="Save" Foreground="#007ACC" FontSize="13"/>
+            </Button>
+            <Button ToolTip.Tip="Guardar todo (Ctrl + Shift + S)">
+                <fluent:SymbolIcon Symbol="SaveMultiple" Foreground="#007ACC" FontSize="13"/>
+            </Button>
+
+            <!-- Separador -->
+            <Rectangle Width="1" Height="14" Fill="#333333" Margin="3,0"/>
+
+            <!-- 5. Deshacer y Rehacer -->
+            <Button Command="{Binding UndoCommand}" ToolTip.Tip="Deshacer (Ctrl + Z)">
+                <fluent:SymbolIcon Symbol="ArrowUndo" Foreground="#CCCCCC" FontSize="12"/>
+            </Button>
+            <Button Command="{Binding RedoCommand}" ToolTip.Tip="Rehacer (Ctrl + Y)">
+                <fluent:SymbolIcon Symbol="ArrowRedo" Foreground="#CCCCCC" FontSize="12"/>
+            </Button>
+
+            <!-- Separador -->
+            <Rectangle Width="1" Height="14" Fill="#333333" Margin="4,0"/>
+
+            <!-- 6. Selector de Configuración (Debug / Release) -->
+            <ComboBox ItemsSource="{Binding Configurations}"
+                      SelectedItem="{Binding SelectedConfiguration}"
+                      Background="#252526"
+                      BorderBrush="#3E3E42"
+                      Foreground="#D4D4D4"
+                      FontSize="11"
+                      Height="22"
+                      Padding="6,1"
+                      CornerRadius="3"/>
+
+            <!-- 7. Selector de Plataforma (Any CPU / x64...) -->
+            <ComboBox ItemsSource="{Binding Platforms}"
+                      SelectedItem="{Binding SelectedPlatform}"
+                      Background="#252526"
+                      BorderBrush="#3E3E42"
+                      Foreground="#D4D4D4"
+                      FontSize="11"
+                      Height="22"
+                      Padding="6,1"
+                      CornerRadius="3"
+                      Margin="3,0,0,0"/>
+
+            <!-- 8. BOTÓN PLAY CONCATENADO ESTILO VISUAL STUDIO 2026 -->
+            <Button Command="{Binding RunProjectCommand}"
+                    Background="#252526"
+                    BorderBrush="#3E3E42"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Height="24"
+                    MinWidth="90"
+                    Padding="8,2"
+                    Margin="4,0"
+                    ToolTip.Tip="Iniciar depuración / Compilar proyecto activo (F5)">
+                <Button.Styles>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#2D2D30"/>
+                        <Setter Property="BorderBrush" Value="#4EC9B0"/>
+                    </Style>
+                </Button.Styles>
+                <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                    <fluent:SymbolIcon Symbol="Play" Foreground="#4EC9B0" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding ActiveStartupProject, FallbackValue='MAC_UI', TargetNullValue='MAC_UI'}" 
+                               Foreground="#FFFFFF" 
+                               FontWeight="SemiBold" 
+                               FontSize="11" 
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <!-- 9. Paso a paso / Depuración -->
+            <Button ToolTip.Tip="Paso a paso por instrucciones (F11)">
+                <fluent:SymbolIcon Symbol="ArrowStepIn" Foreground="#4EC9B0" FontSize="12"/>
+            </Button>
+            <Button ToolTip.Tip="Paso a paso por procedimientos (F10)">
+                <fluent:SymbolIcon Symbol="ArrowStepOver" Foreground="#4EC9B0" FontSize="12"/>
+            </Button>
+
+            <!-- Separador -->
+            <Rectangle Width="1" Height="14" Fill="#333333" Margin="4,0"/>
+
+            <!-- 10. Búsqueda y diagnósticos rápidos -->
+            <Button ToolTip.Tip="Buscar en archivos (Ctrl + Shift + F)">
+                <fluent:SymbolIcon Symbol="DocumentSearch" Foreground="#CCCCCC" FontSize="12"/>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,64 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:MAC_UI"
+             xmlns:vm="using:MAC_UI.ViewModels"
+             xmlns:views="using:MAC_UI.Views"
+             xmlns:dockTheme="using:Dock.Avalonia.Themes.Fluent"
+             x:Class="MAC_UI.App"
+             RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <!-- Cada DataTemplate debe tener exactamente un único elemento hijo -->
+        <DataTemplate DataType="vm:SolutionExplorerViewModel">
+            <views:SolutionExplorerView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:CodeEditorViewModel">
+            <views:CodeEditorView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:TerminalViewModel">
+            <views:TerminalView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:OutputViewModel">
+            <views:OutputView/>
+        </DataTemplate>
+
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- FUSIÓN DEL TEMA MODERNO PARA LAS GUÍAS DE DOCK (Gana por precedencia sobre DockFluentTheme) -->
+            <ResourceDictionary.MergedDictionaries>
+                <!-- <ResourceInclude Source="avares://MAC_UI/Themes/DockTargets.axaml"/> -->
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Paleta base de la aplicación -->
+            <SolidColorBrush x:Key="DockThemeBackgroundBrush" Color="#1E1E1E"/>
+            <SolidColorBrush x:Key="DockThemeBorderBrush" Color="#2D2D30"/>
+            <SolidColorBrush x:Key="DockTitleBarBackgroundBrush" Color="#252526"/>
+            <SolidColorBrush x:Key="DockTitleBarForegroundBrush" Color="#CCCCCC"/>
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+        
+        <!-- Tema Fluent base de Dock -->
+        <dockTheme:DockFluentTheme />
+
+        <!-- Estilos limpios para superficies de herramientas y documentos -->
+        <Style Selector="DocumentControl">
+            <Setter Property="Background" Value="#1E1E1E"/>
+        </Style>
+
+        <Style Selector="ToolControl">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="BorderBrush" Value="#2D2D30"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Application.Styles>
+</Application>

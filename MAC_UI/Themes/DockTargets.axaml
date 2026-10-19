@@ -1,0 +1,149 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dock="clr-namespace:Dock.Avalonia.Controls;assembly=Dock.Avalonia">
+
+  <SolidColorBrush x:Key="DockTargetIndicatorBackgroundBrush" Color="#E6121A22"/>
+  <SolidColorBrush x:Key="DockTargetIndicatorBorderBrush" Color="#2A6F8F"/>
+  <SolidColorBrush x:Key="DockTargetIndicatorActiveBrush" Color="#35C9FF"/>
+  <SolidColorBrush x:Key="DockTargetIndicatorGlyphBrush" Color="#7FB8D4"/>
+  <SolidColorBrush x:Key="DockDropOverlayPreviewBrush" Color="#1A35C9FF"/>
+
+  <!-- Marco achaflanado HUD -->
+  <StreamGeometry x:Key="HudFrame">M0,5 L5,0 L29,0 L34,5 L34,29 L29,34 L5,34 L0,29 Z</StreamGeometry>
+
+  <!-- ===== DockTarget (guías locales) ===== -->
+  <ControlTheme x:Key="{x:Type dock:DockTarget}" TargetType="dock:DockTarget">
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="Template">
+      <ControlTemplate TargetType="dock:DockTarget">
+        <Panel x:Name="PART_Panel" ClipToBounds="False">
+
+          <Border x:Name="PART_Preview" IsHitTestVisible="False" BorderThickness="1"
+                  Background="{DynamicResource DockDropOverlayPreviewBrush}"
+                  BorderBrush="{DynamicResource DockTargetIndicatorActiveBrush}"/>
+
+          <Grid Width="108" Height="108" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/><RowDefinition Height="*"/><RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Panel x:Name="PART_TopIndicator" Grid.Row="0" Grid.Column="1" Margin="2">
+              <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                    Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                    Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+              <Grid Width="18" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" VerticalAlignment="Top" Height="6"/>
+                <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+              </Grid>
+            </Panel>
+
+            <Panel x:Name="PART_LeftIndicator" Grid.Row="1" Grid.Column="0" Margin="2">
+              <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                    Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                    Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+              <Grid Width="18" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" HorizontalAlignment="Left" Width="8"/>
+                <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+              </Grid>
+            </Panel>
+
+            <Panel x:Name="PART_CenterIndicator" Grid.Row="1" Grid.Column="1" Margin="2">
+              <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                    Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                    Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+              <Grid Width="18" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" Opacity="0.45"/>
+                <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Width="8" Height="3"/>
+                <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+              </Grid>
+            </Panel>
+
+            <Panel x:Name="PART_RightIndicator" Grid.Row="1" Grid.Column="2" Margin="2">
+              <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                    Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                    Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+              <Grid Width="18" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" HorizontalAlignment="Right" Width="8"/>
+                <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+              </Grid>
+            </Panel>
+
+            <Panel x:Name="PART_BottomIndicator" Grid.Row="2" Grid.Column="1" Margin="2">
+              <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                    Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                    Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+              <Grid Width="18" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" VerticalAlignment="Bottom" Height="6"/>
+                <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+              </Grid>
+            </Panel>
+          </Grid>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+  <!-- ===== GlobalDockTarget (guías de los bordes) ===== -->
+  <ControlTheme x:Key="{x:Type dock:GlobalDockTarget}" TargetType="dock:GlobalDockTarget">
+    <Setter Property="ClipToBounds" Value="False"/>
+    <Setter Property="Template">
+      <ControlTemplate TargetType="dock:GlobalDockTarget">
+        <Panel x:Name="PART_Panel" ClipToBounds="False">
+
+          <Border x:Name="PART_Preview" IsHitTestVisible="False" BorderThickness="1"
+                  Background="{DynamicResource DockDropOverlayPreviewBrush}"
+                  BorderBrush="{DynamicResource DockTargetIndicatorActiveBrush}"/>
+
+          <Panel x:Name="PART_TopIndicator" Width="38" Height="38"
+                 HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,12,0,0">
+            <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                  Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                  Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+            <Grid Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" VerticalAlignment="Top" Height="4"/>
+              <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+            </Grid>
+          </Panel>
+
+          <Panel x:Name="PART_LeftIndicator" Width="38" Height="38"
+                 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,0,0">
+            <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                  Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                  Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+            <Grid Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" HorizontalAlignment="Left" Width="5"/>
+              <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+            </Grid>
+          </Panel>
+
+          <Panel x:Name="PART_RightIndicator" Width="38" Height="38"
+                 HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0">
+            <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                  Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                  Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+            <Grid Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" HorizontalAlignment="Right" Width="5"/>
+              <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+            </Grid>
+          </Panel>
+
+          <Panel x:Name="PART_BottomIndicator" Width="38" Height="38"
+                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
+            <Path Data="{StaticResource HudFrame}" Stretch="Fill" StrokeThickness="1"
+                  Fill="{DynamicResource DockTargetIndicatorBackgroundBrush}"
+                  Stroke="{DynamicResource DockTargetIndicatorBorderBrush}"/>
+            <Grid Width="20" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <Rectangle Fill="{DynamicResource DockTargetIndicatorActiveBrush}" VerticalAlignment="Bottom" Height="4"/>
+              <Rectangle Stroke="{DynamicResource DockTargetIndicatorGlyphBrush}" StrokeThickness="1"/>
+            </Grid>
+          </Panel>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

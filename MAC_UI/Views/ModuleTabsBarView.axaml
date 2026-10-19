@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+             x:Class="MAC_UI.Views.ModuleTabsBarView"
+             x:DataType="vm:ModuleTabsBarViewModel"
+             Background="#222222">
+
+    <Border Background="#222222" BorderBrush="#2D2D30" BorderThickness="0,0,0,1" Height="32">
+        <TabControl SelectedIndex="{Binding SelectedTabIndex}" Background="Transparent" BorderThickness="0">
+            <TabControl.Styles>
+                <Style Selector="TabItem">
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="Foreground" Value="#999999"/>
+                    <Setter Property="Padding" Value="12,4"/>
+                    <Setter Property="MinHeight" Value="26"/>
+                </Style>
+                <Style Selector="TabItem:selected">
+                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Style>
+            </TabControl.Styles>
+
+            <TabItem Header="Inicio"/>
+            <TabItem Header="Code"/>
+            <TabItem Header="LM Studio"/>
+            <TabItem Header="MCP"/>
+            <TabItem Header="AI Team"/>
+        </TabControl>
+    </Border>
+</UserControl>

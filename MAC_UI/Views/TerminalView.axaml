@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+             xmlns:term="using:Iciclecreek.Terminal"
+             x:Class="MAC_UI.Views.TerminalView"
+             x:DataType="vm:TerminalViewModel"
+             Background="#1E1E1E">
+
+    <Grid Background="#1E1E1E" Margin="2">
+        <!-- Terminal nativa sin propiedades inválidas -->
+        <term:TerminalControl x:Name="TerminalHost" 
+                              Background="#1E1E1E" />
+    </Grid>
+</UserControl>

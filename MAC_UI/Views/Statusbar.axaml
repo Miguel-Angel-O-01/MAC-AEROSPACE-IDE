@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+             x:Class="MAC_UI.Views.StatusBarView"
+             x:DataType="vm:StatusBarViewModel"
+             Background="{Binding StatusBarColor}"
+             Height="24">
+
+    <Grid ColumnDefinitions="Auto,*,Auto" Margin="10,0" VerticalAlignment="Center">
+        <!-- Mensaje de estado global ("Listo", "guardado", etc.) -->
+        <TextBlock Grid.Column="0" 
+                   Text="{Binding StatusMessage}" 
+                   Foreground="White" 
+                   FontSize="12" 
+                   VerticalAlignment="Center"/>
+
+        <Panel Grid.Column="1"/>
+
+        <!-- Información global a la derecha -->
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <TextBlock Text="main" Foreground="White" FontSize="11"/>
+            <TextBlock Text="|" Foreground="#A0C6E8" FontSize="11"/>
+            <TextBlock Text="C#" Foreground="White" FontSize="11"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,55 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:MAC_UI.Views"
+        xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+        xmlns:fluent="clr-namespace:FluentIcons.Avalonia;assembly=FluentIcons.Avalonia"
+        xmlns:dock="clr-namespace:Dock.Avalonia.Controls;assembly=Dock.Avalonia"
+        xmlns:conv="clr-namespace:MAC_UI.Converters"
+        x:Class="MAC_UI.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:Name="RootWindow"
+        Title="MAC IDE"
+        DragDrop.AllowDrop="True"
+        Width="1200" Height="800"
+        WindowState="Maximized"
+        Background="#181818">
+
+    <Window.Resources>
+        <conv:FileIconConverter x:Key="FileIconConverter"/>
+        <conv:FileColorConverter x:Key="FileColorConverter"/>
+    </Window.Resources>
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="F5" Command="{Binding ToolbarViewModel.RunProjectCommand}"/>
+        <KeyBinding Gesture="Ctrl+Shift+B" Command="{Binding ToolbarViewModel.BuildSolutionCommand}"/>
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenFileCommand}" CommandParameter="{Binding #RootWindow}"/>
+        <KeyBinding Gesture="Ctrl+Shift+O" Command="{Binding OpenFolderCommand}" CommandParameter="{Binding #RootWindow}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveFileCommand}" CommandParameter="{Binding #RootWindow}"/>
+        <KeyBinding Gesture="Ctrl+B" Command="{Binding ToggleExplorerCommand}"/>
+        <KeyBinding Gesture="Ctrl+W" Command="{Binding CloseDocumentTabCommand}"/>
+        <KeyBinding Gesture="Ctrl+T" Command="{Binding OpenSearchWindowCommand}" CommandParameter="{Binding #RootWindow}"/>
+    </Window.KeyBindings>
+
+    <!-- Shell Principal Orquestador Único -->
+    <Grid RowDefinitions="Auto,Auto,Auto,*,24">
+
+        <!-- Fila 0: Menú Superior y Búsqueda -->
+        <views:TopMenuBarView Grid.Row="0" DataContext="{Binding MenuBarViewModel}"/>
+
+        <!-- Fila 1: Barra de Navegación y Herramientas -->
+        <views:MainToolbarView Grid.Row="1" DataContext="{Binding ToolbarViewModel}"/>
+
+        <!-- Fila 2: Pestañas de Módulos (Inicio, Code, LM Studio, etc.) -->
+        <views:ModuleTabsBarView Grid.Row="2" DataContext="{Binding ModuleTabsViewModel}"/>
+
+        <!-- Fila 3: Área de Trabajo con Docking Fluido (Dock.Avalonia) -->
+        <dock:DockControl Grid.Row="3" 
+                          Layout="{Binding Layout}" 
+                          InitializeLayout="True" 
+                          InitializeFactory="True"/>
+
+        <!-- Fila 4: Barra de Estado Inferior -->
+        <views:StatusBarView Grid.Row="4" DataContext="{Binding StatusBarViewModel}"/>
+
+    </Grid>
+</Window>

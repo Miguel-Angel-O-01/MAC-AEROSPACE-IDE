@@ -1,0 +1,146 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:folding="using:AvaloniaEdit.Folding"
+             xmlns:vm="clr-namespace:MAC_UI.ViewModels"
+             xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+             xmlns:fluent="clr-namespace:FluentIcons.Avalonia;assembly=FluentIcons.Avalonia"
+             x:Class="MAC_UI.Views.CodeEditorView"
+             x:DataType="vm:CodeEditorViewModel"
+             Background="#1E1E1E">
+
+    <UserControl.Styles>
+                    <Style Selector="folding|FoldingMargin">
+                    <Setter Property="FoldingMarkerBrush" Value="#858585"/>
+                    <Setter Property="FoldingMarkerBackgroundBrush" Value="#252526"/>
+                    <Setter Property="SelectedFoldingMarkerBrush" Value="#007ACC"/>
+                    </Style>
+      </UserControl.Styles>
+    <Grid RowDefinitions="Auto,*,22" Background="#1E1E1E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        
+        <!-- Fila 0: Barra de herramientas del Editor compacta estilo Visual Studio 2026 -->
+        <Border Grid.Row="0" Height="26" Background="#252526" BorderBrush="#2D2D30" BorderThickness="0,0,0,1" Padding="8,1">
+            <StackPanel Orientation="Horizontal" Spacing="2">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="CornerRadius" Value="3"/>
+                        <Setter Property="Padding" Value="5,3"/>
+                        <Setter Property="Height" Value="22"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                        <Setter Property="Background" Value="#3E3E42"/>
+                    </Style>
+                </StackPanel.Styles>
+
+                <!-- Botón: Solo Código -->
+                <Button Command="{Binding SetSplitModeCommand}" CommandParameter="CodeOnly" ToolTip.Tip="Solo Código">
+                    <fluent:SymbolIcon Symbol="Code" Foreground="#D4D4D4" FontSize="11"/>
+                </Button>
+
+                <!-- Botón: Doble Vista Horizontal -->
+                <Button Command="{Binding SetSplitModeCommand}" CommandParameter="SplitHorizontal" ToolTip.Tip="Doble Vista (Horizontal)">
+                    <fluent:SymbolIcon Symbol="TableSplit" Foreground="#D4D4D4" FontSize="11"/>
+                </Button>
+
+                <!-- Botón: Doble Vista Vertical -->
+                <Button Command="{Binding SetSplitModeCommand}" CommandParameter="SplitVertical" ToolTip.Tip="Doble Vista (Vertical)">
+                    <fluent:SymbolIcon Symbol="WindowDevTools" Foreground="#D4D4D4" FontSize="11"/>
+                </Button>
+
+                <!-- Botón: Solo Diseño / 3D -->
+                <Button Command="{Binding SetSplitModeCommand}" CommandParameter="PreviewOnly" ToolTip.Tip="Solo Vista Previa / Diseño">
+                    <fluent:SymbolIcon Symbol="Eye" Foreground="#D4D4D4" FontSize="11"/>
+                </Button>
+
+                <!-- Separador vertical sutil -->
+                <Rectangle Width="1" Height="14" Fill="#3E3E42" Margin="6,0"/>
+
+                <!-- Indicador de archivo actual -->
+            </StackPanel>
+        </Border>
+
+        <!-- Fila 1: Área de Código y Panel Dividido -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <!-- Editor de Código: toma todo el ancho si preview está en 0 -->
+                <ColumnDefinition Width="*" MinWidth="100"/>
+                <!-- Splitter solo visible si hay doble vista activa -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Panel de Vista Previa: inicia en 0px (oculto) -->
+                <ColumnDefinition Width="{Binding PreviewColumnWidth, Mode=TwoWay}" MinWidth="0"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Panel A: Editor de Código + Minimapa -->
+            <Grid Grid.Column="0" ColumnDefinitions="*,Auto" IsVisible="{Binding IsCodeVisible}">
+                <AvaloniaEdit:TextEditor x:Name="Editor"
+                                         Grid.Column="0"
+                                         Document="{Binding Document}"
+                                         ShowLineNumbers="True"
+                                         FontFamily="Cascadia Code, Consolas, Menlo, Monospace"
+                                         HorizontalScrollBarVisibility="Auto"
+                                         VerticalScrollBarVisibility="Visible"
+                                         FontSize="15"
+                                         Foreground="#D4D4D4"
+                                         Background="#1E1E1E"/>
+
+                <!-- Lupa flotante -->
+                <Border x:Name="MinimapPreviewPopup"
+                        Grid.Column="0"
+                        IsVisible="{Binding IsMinimapPreviewVisible}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,0,12,0"
+                        Background="#1E1E1E"
+                        BorderBrush="#007ACC"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Width="440"
+                        Height="150"
+                        ZIndex="100"
+                        BoxShadow="0 4 16 0 #77000000"
+                        IsHitTestVisible="False">
+                    <Grid RowDefinitions="Auto,*">
+                        <TextBlock Text="{Binding MinimapPreviewTitle}" Foreground="#007ACC" FontSize="11" FontWeight="Bold" Margin="0,0,0,6"/>
+                        <TextBlock Grid.Row="1" Text="{Binding MinimapPreviewText}" FontFamily="Cascadia Code, Consolas, Monospace" FontSize="12" Foreground="#D4D4D4" TextWrapping="NoWrap"/>
+                    </Grid>
+                </Border>
+
+                <!-- Minimapa Lateral Derecho -->
+                <Border Grid.Column="1" Width="140" Background="#181818" BorderBrush="#2D2D30" BorderThickness="1,0,0,0">
+                    <Panel x:Name="MinimapContainer" Background="#181818">
+                        <TextBlock Text="{Binding Document.Text}" FontFamily="Cascadia Code, Consolas, Monospace" FontSize="5" Foreground="#707070" LineHeight="6" Margin="6,2,4,0" IsHitTestVisible="False"/>
+                        <Border x:Name="MinimapSlider" Height="48" Background="#22007ACC" BorderBrush="#007ACC" BorderThickness="1" VerticalAlignment="Top" IsHitTestVisible="False"/>
+                    </Panel>
+                </Border>
+            </Grid>
+
+            <!-- Separador del Split View -->
+            <GridSplitter Grid.Column="1" Width="4" Background="#252526" ResizeDirection="Columns" IsVisible="{Binding IsPreviewVisible}"/>
+
+            <!-- Panel B: Vista de Diseño / Render 3D de OpenCASCADE -->
+            <Border Grid.Column="2" Background="#181818" IsVisible="{Binding IsPreviewVisible}">
+                <Panel>
+                    <TextBlock Text="Vista previa interactiva / Render 3D CAD" Foreground="#666666" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13"/>
+                </Panel>
+            </Border>
+        </Grid>
+
+        <!-- Fila 2: Telemetría fijada al pie -->
+        <Border Grid.Row="2" Height="22" Background="#252526" BorderBrush="#2D2D30" BorderThickness="0,1,0,0" Padding="12,0,16,0" VerticalAlignment="Bottom">
+            <Grid ColumnDefinitions="*,Auto">
+                <Panel Grid.Column="0"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding CaretTelemetry}" Foreground="#CCCCCC" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Text="|" Foreground="#444444" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding ZoomPercentage}" Foreground="#CCCCCC" FontSize="11" Width="40" TextAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Text="|" Foreground="#444444" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding LineEnding}" Foreground="#CCCCCC" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Text="|" Foreground="#444444" FontSize="11" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Encoding}" Foreground="#CCCCCC" FontSize="11" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

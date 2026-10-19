@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../MAC_IDE.Core/MAC_IDE.Core.csproj" Id="64f7e6df-e5b3-4202-b421-208c416868d8" />
+  <Project Path="../MAC_IDE.Workspace/MAC_IDE.Workspace.csproj" Id="06f618c8-cd3c-40f0-9661-7b48c382a0d4" />
+  <Project Path="MAC_UI.csproj" />
+</Solution>
